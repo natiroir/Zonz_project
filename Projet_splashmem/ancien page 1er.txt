@@ -1,0 +1,126 @@
+if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        printf("Erreur d'initialisation de SDL: %s\n", SDL_GetError());
+    }
+
+    if (TTF_Init() != 0) {
+        printf("Erreur d'initialisation de SDL_ttf: %s\n", TTF_GetError());
+        SDL_Quit();
+    }
+
+    SDL_Window *window_1 = SDL_CreateWindow("Choix des paramètres", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    if (!window_1) {
+        printf("Erreur de création de la fenêtre: %s\n", SDL_GetError());
+        TTF_Quit();
+        SDL_Quit();
+    }
+
+    SDL_Renderer *renderer = SDL_CreateRenderer(window_1, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        printf("Erreur de création du renderer: %s\n", SDL_GetError());
+        SDL_DestroyWindow(window_1);
+        TTF_Quit();
+        SDL_Quit();
+    }
+
+    TTF_Font *font = TTF_OpenFont("arial.ttf", 24);
+    if (!font) {
+        printf("Erreur de chargement de la police: %s\n", TTF_GetError());
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window_1);
+        TTF_Quit();
+        SDL_Quit();
+    }
+
+    char players_text[3] = "2";  // Initialisation du texte pour le nombre de joueurs
+    char credits_text[5] = "1500";  // Initialisation du texte pour le nombre de crédits
+    SDL_Rect button = {350, 400, 100, 50}; // Position et taille du bouton
+    SDL_bool running = SDL_TRUE;
+    SDL_bool input_players = SDL_FALSE;
+    SDL_bool input_credits = SDL_FALSE;
+
+    char text_to_display[20];
+    sprintf(text_to_display, "Nombre de joueurs : %s", players_text);
+    render_text(renderer, font, text_to_display, 50, 50);
+    char text_to_display_2[20];
+    sprintf(text_to_display_2, "Nombre de joueurs : %s", credits_text);
+    render_text(renderer, font, text_to_display_2, 50, 50);
+    SDL_StartTextInput();
+
+    while (running) {
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                running = SDL_FALSE;
+            } else if (event.type == SDL_KEYDOWN) {
+                if (input_players || input_credits) {
+                    if (event.key.keysym.sym == SDLK_RETURN) {
+                        input_players = SDL_FALSE;
+                        input_credits = SDL_FALSE;
+                        SDL_StopTextInput();
+                    } else if (event.key.keysym.sym == SDLK_BACKSPACE) {
+                        if (input_players && strlen(players_text) > 0) {
+                            players_text[strlen(players_text) - 1] = '\0';
+                        } else if (input_credits && strlen(credits_text) > 0) {
+                            credits_text[strlen(credits_text) - 1] = '\0';
+                        }
+                    }
+                }
+            } else if (event.type == SDL_TEXTINPUT) {
+                if (input_players && strlen(players_text) < 2) {
+                    strcat(players_text, event.text.text);
+                } else if (input_credits && strlen(credits_text) < 4) {
+                    strcat(credits_text, event.text.text);
+                }
+            } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                if (x >= button.x && x <= button.x + button.w && y >= button.y && y <= button.y + button.h) {
+                    int players = atoi(players_text);
+                    int credits = atoi(credits_text);
+                    if (players >= 2 && players <= 4 && credits >= 1500 && credits <= 9000) {
+                        //launch_main_program(players, credits);
+                        lancer_jeu = 1;
+                        running = SDL_FALSE;
+                    } else {
+                        printf("Valeurs invalides. Veuillez entrer des valeurs valides.\n");
+                    }
+                } else if (x >= 50 && x <= 250 && y >= 50 && y <= 100) {
+                    input_players = SDL_TRUE;
+                    input_credits = SDL_FALSE;
+                    SDL_StartTextInput();
+                } else if (x >= 50 && x <= 250 && y >= 100 && y <= 150) {
+                    input_players = SDL_FALSE;
+                    input_credits = SDL_TRUE;
+                    SDL_StartTextInput();
+                }
+            }
+        }
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+
+        char text_to_display[20];
+        sprintf(text_to_display, "Nombre de joueurs : %s", players_text);
+        render_text(renderer, font, text_to_display, 50, 50);
+
+        /*render_text(renderer, font, "Nombre de joueurs : ", 50, 50);
+        render_text(renderer, font, players_text, 250, 50);*/
+
+        /*render_text(renderer, font, "Nombre de crédits : ", 50, 100);
+        render_text(renderer, font, credits_text, 250, 100);*/
+
+        // Dessiner le bouton
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Couleur bleue pour le bouton
+        SDL_RenderFillRect(renderer, &button);
+
+        // Afficher le texte du bouton
+        render_text(renderer, font, "Valider", button.x + 10, button.y + 10);
+
+        SDL_RenderPresent(renderer);
+    }
+    SDL_StopTextInput();
+    TTF_CloseFont(font);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window_1);
+    TTF_Quit();
+    SDL_Quit();

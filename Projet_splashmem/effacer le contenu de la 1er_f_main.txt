@@ -1,0 +1,32 @@
+void main_loop()
+{
+    int running = 1;
+    SDL_Event event;
+
+    while (running) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                printf("🚪 Fermeture de la fenêtre principale\n");
+                running = 0;
+            }
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE) {
+                if (event.window.windowID == SDL_GetWindowID(window)) {
+                    printf("🚪 Fermeture de la fenêtre principale\n");
+                    running = 0;
+                }
+            }
+        }
+
+        // Attendre la fin du jeu et afficher la fenêtre des scores
+        if (quitting) {
+            int restart = display_score_window(players);
+
+            if (restart) {
+                printf("🔄 Effacement de la fenêtre principale pour redémarrer le jeu !\n");
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // Fond noir
+                SDL_RenderClear(renderer);
+                SDL_RenderPresent(renderer);
+            }
+        }
+    }
+}

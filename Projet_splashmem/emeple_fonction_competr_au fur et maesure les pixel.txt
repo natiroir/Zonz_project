@@ -1,0 +1,15 @@
+void world_paint_spot(int x, int y, int player_id, t_player players[MAX_PLAYERS]) {
+    if (x >= 0 && x < MAP_SIZE && y >= 0 && y < MAP_SIZE) {
+        int index = y * MAP_SIZE + x;
+        int old_player_id = mapmem[index];  // 🔍 ID du joueur précédent
+
+        // Si le pixel était déjà peint par un autre joueur, on réduit son compteur
+        if (old_player_id >= 0 && old_player_id < MAX_PLAYERS && old_player_id != player_id) {
+            players[old_player_id].count--; 
+        }
+
+        // Peindre le pixel avec le nouvel ID et mettre à jour le compteur du joueur actuel
+        mapmem[index] = player_id;
+        players[player_id].count++;  // ✅ Ajoute un pixel au nouveau joueur
+    }
+}

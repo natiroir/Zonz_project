@@ -1,0 +1,16 @@
+void count_pixels(uint16_t counts[MAX_PLAYERS]) 
+{
+    // Initialiser les compteurs
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        counts[i] = 0;
+    }
+
+    // Parcourir la carte mémoire et compter les pixels de chaque joueur
+    for (int i = 0; i < SPOT_NUM; i++) {
+        int player_id = mapmem[i];  // ID du joueur à cet emplacement
+
+        if (player_id >= 0 && player_id < MAX_PLAYERS) {
+            counts[player_id]++;
+        }
+    }
+}

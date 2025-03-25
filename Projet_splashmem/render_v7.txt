@@ -1,0 +1,311 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_ttf.h>  // Nécessaire pour afficher du texte
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <dlfcn.h>  // Nécessaire pour dlopen et dlsym
+
+#include "actions.h"
+#include "param.h"
+#include "splash.h"
+#include "world.h"
+
+// Déclaration des pointeurs de fonction
+char (*get_action1)();
+char (*get_action2)();
+char (*get_action3)();
+char (*get_action4)();
+
+void* handle1 = NULL;
+void* handle2 = NULL;
+void* handle3 = NULL;
+void* handle4 = NULL;
+
+static uint16_t cpt_non_color = 0;
+
+void count_pixels(t_player *players[MAX_PLAYERS]);
+void load_libraries();
+void close_libraries();  // Ajout de cette fonction
+void display_score_window(t_player *players[MAX_PLAYERS]);
+
+/* ------------------------------------------------------------------------- */
+/*                                                                           */
+/* ------------------------------------------------------------------------- */
+void render_map()
+{
+    int      i = 0;
+    SDL_Rect rect;
+
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = SQUARE_SIZE;
+    rect.h = SQUARE_SIZE;
+
+    screenSurface = SDL_GetWindowSurface(window);
+
+    for (i = 0; i < SPOT_NUM; i++)
+    {
+        rect.x = (i % MAP_SIZE) * SQUARE_SIZE;
+        rect.y = (i / MAP_SIZE) * SQUARE_SIZE;
+        SDL_FillRect(screenSurface, &rect, colors[mapmem[i]]);
+    }
+    SDL_UpdateWindowSurface(window);
+}
+
+/* ------------------------------------------------------------------------- */
+/*                                                                           */
+/* ------------------------------------------------------------------------- */
+void render_player()
+{
+    int i         = 0;
+    screenSurface = SDL_GetWindowSurface(window);
+    SDL_Rect rect;
+
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = SQUARE_SIZE;
+    rect.h = SQUARE_SIZE;
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        rect.x = players[i]->x * SQUARE_SIZE;
+        rect.y = players[i]->y * SQUARE_SIZE;
+        SDL_FillRect(screenSurface, &rect, colors[i] - 0x00202020);
+    }
+    SDL_UpdateWindowSurface(window);
+}
+
+/* ------------------------------------------------------------------------- */
+/*                                                                           */
+/* ------------------------------------------------------------------------- */
+void main_loop()
+{
+    uint32_t nb = 0;
+    static char action_result_1, action_result_2, action_result_3, action_result_4;
+    static int32_t credit_player_1 = 0;
+    static int32_t credit_player_2 = 0;
+    static int32_t credit_player_3 = 0;
+    static int32_t credit_player_4 = 0;
+
+    // Charger les bibliothèques dynamiques
+    load_libraries();
+
+    while (!quitting)
+    {
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_QUIT)
+            {
+                quitting = 1;
+            }
+        }
+
+        // Vérification avant d’appeler les fonctions
+        credit_player_1 = get_credit_player(players[0]);
+        if(credit_player_1>0)
+        {
+            if (!players[0]) { printf("Erreur : players[0] est NULL !\n"); exit(EXIT_FAILURE); }
+            if (get_action1) {
+            action_result_1 = get_action1();
+            actions_do(players[0], action_result_1);// rouge
+            }
+        }
+        credit_player_2 = get_credit_player(players[1]);
+        if(credit_player_2 > 0)
+        {
+            if (!players[1]) { printf("Erreur : players[1] est NULL !\n"); exit(EXIT_FAILURE); }
+            if (get_action2) {
+                action_result_2 = get_action2();
+                actions_do(players[1], action_result_2);// vert
+            }
+        }
+        credit_player_3 = get_credit_player(players[2]);
+        if(credit_player_3 > 0)
+        {
+            if (!players[2]) { printf("Erreur : players[2] est NULL !\n"); exit(EXIT_FAILURE); }
+            if (get_action3) {
+                action_result_3 = get_action3();
+                actions_do(players[2], action_result_3); //bleu
+            }
+        }
+        credit_player_4 = get_credit_player(players[3]);
+        if(credit_player_4 > 0)
+        {
+            if (!players[3]) { printf("Erreur : players[3] est NULL !\n"); exit(EXIT_FAILURE); }
+            if (get_action4) {
+                action_result_4 = get_action4();
+                actions_do(players[3], action_result_4);//violet
+            }
+        }
+        // Affichage et mise à jour
+        render_map();
+        nb++;
+        SDL_Delay(100);
+
+        if((credit_player_1<=0) && (credit_player_2<=0) && (credit_player_3<=0) && (credit_player_4<=0))
+        {
+            quitting = 1;
+        }
+    }
+    // Compter les pixels recouverts par chaque joueur
+    count_pixels(players);
+
+    players[0]->count = players[1]->count;
+    players[1]->count = players[2]->count;
+    players[2]->count = players[3]->count;
+    players[3]->count = cpt_non_color;
+    // Afficher les résultats
+    printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d | Joueur 3: %d | Joueur 4: %d\n",
+            players[0]->count, players[1]->count, players[2]->count, players[3]->count);
+    // Afficher les scores et le vainqueur
+    display_score_window(players);
+
+    // Fermer les bibliothèques après utilisation
+    close_libraries();
+}
+
+void load_libraries() 
+{
+    handle1 = dlopen("players/player1.so", RTLD_LAZY);
+    if (!handle1) { fprintf(stderr, "Erreur dlopen player1.so : %s\n", dlerror()); close_libraries(); exit(EXIT_FAILURE); }
+
+    handle2 = dlopen("players/player2.so", RTLD_LAZY);
+    if (!handle2) { fprintf(stderr, "Erreur dlopen player2.so : %s\n", dlerror()); close_libraries(); exit(EXIT_FAILURE); }
+
+    handle3 = dlopen("players/player3.so", RTLD_LAZY);
+    if (!handle3) { fprintf(stderr, "Erreur dlopen player3.so : %s\n", dlerror()); close_libraries(); exit(EXIT_FAILURE); }
+
+    handle4 = dlopen("players/player4.so", RTLD_LAZY);
+    if (!handle4) { fprintf(stderr, "Erreur dlopen player4.so : %s\n", dlerror()); close_libraries(); exit(EXIT_FAILURE); }
+
+    get_action1 = (char (*)()) dlsym(handle1, "get_action_1");
+
+    get_action2 = (char (*)()) dlsym(handle2, "get_action_2");
+
+    get_action3 = (char (*)()) dlsym(handle3, "get_action_3");
+
+    get_action4 = (char (*)()) dlsym(handle4, "get_action_4");
+}
+
+/* Fonction pour fermer les bibliothèques */
+void close_libraries() {
+    if (handle1) dlclose(handle1);
+    if (handle2) dlclose(handle2);
+    if (handle3) dlclose(handle3);
+    if (handle4) dlclose(handle4);
+}
+
+// Fonction pour compter les pixels recouverts par chaque joueur
+void count_pixels(t_player *players[MAX_PLAYERS]) 
+{
+    uint8_t player_id = 0;
+    // Initialiser les compteurs
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        players[i]->count = 0;
+    }
+
+    // Parcourir la carte mémoire et compter les pixels de chaque joueur
+    for (int i = 0; i < SPOT_NUM; i++) {
+        player_id = mapmem[i];  // ID du joueur à cet emplacement
+
+        if (player_id >= 0 && player_id < MAX_PLAYERS) 
+        {
+            players[player_id]->count++;
+        }
+        else{cpt_non_color++;}
+    }
+}
+
+void display_score_window(t_player *players[MAX_PLAYERS]) 
+{
+    if (SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() == -1) {
+        printf("Erreur SDL/TTF : %s\n", SDL_GetError());
+        return;
+    }
+
+    // Créer la fenêtre et le renderer
+    SDL_Window *score_window = SDL_CreateWindow("Résultats de la Partie", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 400, 300, SDL_WINDOW_SHOWN);
+    SDL_Renderer *renderer = SDL_CreateRenderer(score_window, -1, SDL_RENDERER_ACCELERATED);
+    TTF_Font *font = TTF_OpenFont("arial.ttf", 24);
+
+    if (!score_window || !renderer || !font) {
+        printf("Erreur création fenêtre scores : %s\n", SDL_GetError());
+        return;
+    }
+
+    // Déterminer le vainqueur
+    int max_score = 0, winner = -1;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (players[i]->count > max_score) {
+            max_score = players[i]->count;
+            winner = i;
+        }
+    }
+
+    // Affichage des scores
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);  // Fond noir
+    SDL_RenderClear(renderer);
+
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        char score_text[50];
+        sprintf(score_text, "Joueur %d : %d pixels", i + 1, players[i]->count);
+        SDL_Surface *surface = TTF_RenderText_Solid(font, score_text, white);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_Rect rect = {50, 50 + i * 40, surface->w, surface->h};
+
+        SDL_RenderCopy(renderer, texture, NULL, &rect);
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
+    }
+
+    // Afficher le gagnant
+    if (winner != -1) {
+        char winner_text[50];
+        sprintf(winner_text, "Vainqueur: Joueur %d !", winner + 1);
+        SDL_Surface *surface = TTF_RenderText_Solid(font, winner_text, white);
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_Rect rect = {50, 220, surface->w, surface->h};
+
+        SDL_RenderCopy(renderer, texture, NULL, &rect);
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
+    }
+
+    SDL_RenderPresent(renderer);
+
+    // Attendre que l'utilisateur ferme la fenêtre
+    SDL_Event event;
+    int running = 1;
+    while (running) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT && event.window.windowID == SDL_GetWindowID(score_window)) {
+                printf(" Fermeture demandée pour la fenêtre des scores\n");
+                running = 0;
+            }
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE &&
+                event.window.windowID == SDL_GetWindowID(score_window)) {
+                printf(" Fermeture via SDL_WINDOWEVENT_CLOSE pour la fenêtre des scores\n");
+                running = 0;
+            }
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
+                printf(" Fermeture de la fenêtre des scores via Échap\n");
+                running = 0;
+            }
+            if (event.type == SDL_MOUSEBUTTONDOWN) {
+                printf(" Fermeture via clic souris\n");
+                running = 0;
+            }
+        }
+        SDL_Delay(100);
+    }
+
+    // Nettoyage
+    TTF_CloseFont(font);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(score_window);
+    TTF_Quit();
+    SDL_Quit();
+}
