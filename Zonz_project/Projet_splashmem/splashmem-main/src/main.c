@@ -18,6 +18,7 @@ SDL_Surface* screenSurface = NULL;
 #define WINDOW_WIDTH 650
 #define WINDOW_HEIGHT 400
 
+void parse_list(const char *list_str);
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
 /* ------------------------------------------------------------------------- */
@@ -44,11 +45,22 @@ int main(int argc, char* argv[])
     window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_SIZE,
                             WIN_SIZE, SDL_WINDOW_SHOWN);
     SDL_AddEventWatch(watch, NULL);
+    
+    // Afficher le nombre d'arguments
+    printf("Nombre d'arguments : %d\n", argc);
 
-    if (argc != 5)
+    // Parcourir et afficher chaque argument
+    for (int i = 0; i < argc; i++)
     {
-        printf("Wrong argument number\n");
+        printf("Argument %d: %s\n", i, argv[i]);
     }
+
+    // Parcourir chaque argument et traiter comme une liste
+    for (int i = 1; i < argc; i++) {
+        printf("Contenu de la liste %d:\n", i);
+        parse_list(argv[i]);
+    }
+
     inits(argc, argv);
 
     main_loop();
@@ -84,4 +96,14 @@ void renderText(SDL_Renderer *renderer, TTF_Font *font, const char *text, int x,
     SDL_Rect dstRect = {x, y, surface->w, surface->h};
     SDL_RenderCopy(renderer, texture, NULL, &dstRect);
     SDL_DestroyTexture(texture);  // Libérer la texture après l'affichage
+}
+
+void parse_list(const char *list_str) 
+{
+    // Parcourir chaque caractère de la chaîne
+    for (int i = 0; i < strlen(list_str); i++) {
+        // Afficher chaque caractère
+        printf("%c ", list_str[i]);
+    }
+    printf("\n");
 }
