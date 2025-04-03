@@ -80,9 +80,17 @@ void render_player()
 void main_loop()
 {
     uint32_t nb = 0;
-    static char action_result_1, action_result_2;
+    //static char action_result_1, action_result_2;
     static int32_t credit_player_1 = 0;
     static int32_t credit_player_2 = 0;
+    static uint8_t *action_j1 = 0;
+    static uint8_t *action_j2 = 0;
+    static uint16_t cpt_act_j1 = 0;
+    static uint16_t cpt_act_j2 = 0;
+    static uint16_t nb_act_j1 = 0;
+    static uint16_t nb_act_j2 = 0;
+
+    action_joueur(&action_j1, &action_j2, &nb_act_j1, &nb_act_j2);
 
     // Charger les bibliothèques dynamiques
     load_libraries();
@@ -107,17 +115,31 @@ void main_loop()
         // Vérification avant d’appeler les fonctions
         credit_player_1 = get_credit_player(players[0]);
 
-        if (!players[0]) { printf("Erreur : players[0] est NULL !\n"); exit(EXIT_FAILURE); }
-        if (get_action1) {
-        action_result_1 = get_action1();
-        actions_do(players[0], action_result_1);// rouge
+        //action_result_1 = get_action1();
+        
+        if(cpt_act_j1 <= nb_act_j1)
+        {
+            actions_do(players[0], action_j1[cpt_act_j1]);// rouge
+            cpt_act_j1++; 
         }
+        else
+        {
+            cpt_act_j1 = 0;
+        }
+        
         credit_player_2 = get_credit_player(players[1]);
-        if (!players[1]) { printf("Erreur : players[1] est NULL !\n"); exit(EXIT_FAILURE); }
-        if (get_action2) {
-            action_result_2 = get_action2();
-            actions_do(players[1], action_result_2);// vert
+
+        //action_result_2 = get_action2();
+        if(cpt_act_j2 <= nb_act_j2)
+        {
+            actions_do(players[1], action_j2[cpt_act_j2]);// rouge
+            cpt_act_j2++; 
         }
+        else
+        {
+            cpt_act_j2 = 0;
+        }
+        
         // Affichage et mise à jour
         render_map();
         nb++;

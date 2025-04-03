@@ -1,0 +1,1 @@
+gcc  -Wall -g CMakeFiles/splashmem.dir/actions.c.o CMakeFiles/splashmem.dir/init.c.o CMakeFiles/splashmem.dir/main.c.o CMakeFiles/splashmem.dir/player.c.o CMakeFiles/splashmem.dir/render.c.o CMakeFiles/splashmem.dir/world.c.o -o splashmem  -lSDL2 

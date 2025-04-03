@@ -11,14 +11,20 @@
 #include "splash.h"
 #include "world.h"
 
-int          quitting      = 0;
-SDL_Window*  window        = NULL;
-SDL_Surface* screenSurface = NULL;
-
+#define MAX_DIGITS 10
 #define WINDOW_WIDTH 650
 #define WINDOW_HEIGHT 400
 
+int          quitting      = 0;
+SDL_Window*  window        = NULL;
+SDL_Surface* screenSurface = NULL;
+static uint8_t action_joueur_1[MAX_DIGITS], action_joueur_2[MAX_DIGITS]; // Tableaux pour stocker les chiffres
+static uint16_t nb_action_j1 = 0;
+static uint16_t nb_action_j2 = 0;
+
 void parse_list(const char *list_str);
+void extract_data(const char *str, uint8_t *numbers, int *size);
+
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
 /* ------------------------------------------------------------------------- */
@@ -45,21 +51,27 @@ int main(int argc, char* argv[])
     window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_SIZE,
                             WIN_SIZE, SDL_WINDOW_SHOWN);
     SDL_AddEventWatch(watch, NULL);
-    
-    // Afficher le nombre d'arguments
-    printf("Nombre d'arguments : %d\n", argc);
 
-    // Parcourir et afficher chaque argument
-    for (int i = 0; i < argc; i++)
-    {
-        printf("Argument %d: %s\n", i, argv[i]);
+    int size1, size2; // Tailles des tableaux
+
+    // Extraction des données des deux paramètres
+    extract_data(argv[1], action_joueur_1, &size1);
+    extract_data(argv[2], action_joueur_2, &size2);
+
+    // Affichage des résultats
+    printf("Chiffres extraits 1 : ");
+    for (int i = 0; i < size1; i++) {
+        printf("%d ", action_joueur_1[i]);
+        nb_action_j1++;
     }
 
-    // Parcourir chaque argument et traiter comme une liste
-    for (int i = 1; i < argc; i++) {
-        printf("Contenu de la liste %d:\n", i);
-        parse_list(argv[i]);
+    printf("nb action joueur 1 : %d\n", nb_action_j1);
+    printf("Chiffres extraits 2 : ");
+    for (int i = 0; i < size2; i++) {
+        printf("%d ", action_joueur_2[i]);
+        nb_action_j2++;
     }
+    printf("\n");
 
     inits(argc, argv);
 
@@ -106,4 +118,28 @@ void parse_list(const char *list_str)
         printf("%c ", list_str[i]);
     }
     printf("\n");
+}
+
+void extract_data(const char *str, uint8_t *numbers, int *size) 
+{
+    *size = 0;
+
+    // Parcours de la chaîne
+    for (int i = 0; str[i] != '\0' && *size < MAX_DIGITS; i++) {
+        if (isdigit(str[i])) {
+            numbers[*size] = str[i] - '0';  // Convertit le chiffre
+            (*size)++;
+        } else if (isalpha(str[i]) && (toupper(str[i]) >= 'A' && toupper(str[i]) <= 'F')) {
+            numbers[*size] = toupper(str[i]) - 'A' + 10;  // Convertit A=10, B=11, ..., F=15
+            (*size)++;
+        }
+    }
+}
+
+void action_joueur(uint8_t** action_tab_j1, uint8_t** action_tab_j2, uint16_t* nombre_act_j1, uint16_t* nombre_act_j2)
+{
+    *action_tab_j1 = action_joueur_1;
+    *action_tab_j2 = action_joueur_2;
+    *nombre_act_j1 = nb_action_j1;
+    *nombre_act_j2 = nb_action_j2;
 }
