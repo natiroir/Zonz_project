@@ -20,6 +20,8 @@ char (*get_action2)();
 void* handle1 = NULL;
 void* handle2 = NULL;
 
+static uint32_t tab_param[3] = {0};
+
 static uint16_t cpt_non_color = 0;
 static int winner = -1;
 void count_pixels(t_player *players[MAX_PLAYERS]);
@@ -143,9 +145,10 @@ void main_loop()
         // Affichage et mise à jour
         render_map();
         nb++;
-        SDL_Delay(100);
+        SDL_Delay(0.250);
 
-        if((credit_player_1<=0) && (credit_player_2<=0))
+        //printf("credit 1 : %d \n",credit_player_1);
+        if((credit_player_1<0) && (credit_player_2<=0))
         {
             quitting = 1;
         }
@@ -155,7 +158,7 @@ void main_loop()
 
     players[0]->count = players[1]->count;
     players[1]->count = cpt_non_color;
-    printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", players[0]->count, players[1]->count);
+    //printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", players[0]->count, players[1]->count);
     printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", get_player1_point(), get_player2_point());
 
     found_winner();
@@ -231,4 +234,13 @@ uint32_t get_player1_point(void)
 uint32_t get_player2_point(void)
 {
     return players[1]->count;
+}
+
+uint32_t* get_output_param(void)
+{
+    tab_param[0] = winner;
+    tab_param[1] = players[0]->count;
+    tab_param[2] = players[1]->count;
+
+    return tab_param;
 }

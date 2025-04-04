@@ -12,8 +12,6 @@
 #include "world.h"
 
 #define MAX_DIGITS 10000
-#define WINDOW_WIDTH 650
-#define WINDOW_HEIGHT 400
 #define NB_LIB_PROG 4
 
 int          quitting      = 0;
@@ -49,8 +47,8 @@ int main(int argc, char* argv[])
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
     }
 
-    window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_SIZE,
-                            WIN_SIZE, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500,
+                            500, SDL_WINDOW_SHOWN);
     SDL_AddEventWatch(watch, NULL);
     
     if (argc != NB_LIB_PROG)

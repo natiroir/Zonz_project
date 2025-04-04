@@ -36,36 +36,42 @@ void actions_do(t_player *p_player, enum action act_id)
     switch (act_id)
     {
         case ACTION_STILL:
-            p_player->credits--; // Réduction des crédits 
+            if(p_player->credits>=1){
+            p_player->credits--;} // Réduction des crédits 
             break;
         case ACTION_MOVE_L:
+        if(p_player->credits>=1)
+        {
         if (mem_player <= 0)
         {
             mem_player = MAP_SIZE - 1;
         }
         world_paint_spot((mem_player-1), mem_player_y, id_player); 
         p_player->x = mem_player-1;
-        p_player->credits--;
+        p_player->credits--;}
         break;
         case ACTION_MOVE_R:
+        if(p_player->credits>=1){
         if (mem_player >= MAP_SIZE)
         {
             mem_player = 0;
         }
         world_paint_spot(mem_player+1, mem_player_y, id_player); 
         p_player->x = mem_player+1;
-        p_player->credits--;
+        p_player->credits--;}
         break;
         case ACTION_MOVE_U:
+        if(p_player->credits>=1){
         if (mem_player_y <= 0)
         {
             mem_player_y = MAP_SIZE - 1;
         }
         world_paint_spot(mem_player, mem_player_y-1, id_player);
         p_player->y = mem_player_y-1;
-        p_player->credits--;
+        p_player->credits--;}
         break;
         case ACTION_MOVE_D: // modif
+        if(p_player->credits>=1){
         if (mem_player_y >= MAP_SIZE - 1)
         {
             mem_player_y = 0;
@@ -76,7 +82,7 @@ void actions_do(t_player *p_player, enum action act_id)
         }
         world_paint_spot(mem_player, mem_player_y, id_player);
         p_player->y = mem_player_y;
-        p_player->credits--;
+        p_player->credits--;}
         break;
         /******************************** DASH ***************************/
         case ACTION_DASH_L:
