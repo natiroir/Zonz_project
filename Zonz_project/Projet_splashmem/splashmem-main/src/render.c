@@ -112,8 +112,6 @@ void main_loop()
 
         // Vérification avant d’appeler les fonctions
         credit_player_1 = get_credit_player(players[0]);
-
-        //action_result_1 = get_action1();
         
         if(cpt_act_j1 <= nb_act_j1)
         {
@@ -143,7 +141,7 @@ void main_loop()
         nb++;
         SDL_Delay(0.250);
 
-        printf("credit 1 : %d \n",credit_player_2);
+        //printf("credit 1 : %d \n",credit_player_2);
         if((credit_player_1<1) && (credit_player_2<1))
         {
             quitting = 1;
@@ -154,8 +152,7 @@ void main_loop()
 
     players[0]->count = players[1]->count;
     players[1]->count = cpt_non_color;
-    //printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", players[0]->count, players[1]->count);
-    printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", get_player1_point(), get_player2_point());
+    printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", players[0]->count, players[1]->count);
 
     found_winner();
     creat_txt_output_param();
@@ -193,22 +190,11 @@ void found_winner(void)
             winner = i;
         }
     }
+    if(players[0]->count == players[1]->count)
+    {
+        winner = 2;
+    }
     printf("le vainqueur est le joueur %d \n", winner +1 );
-}
-
-int get_winner(void)
-{
-    return winner;
-}
-
-uint32_t get_player1_point(void)
-{
-    return players[0]->count;
-}
-
-uint32_t get_player2_point(void)
-{
-    return players[1]->count;
 }
 
 void creat_txt_output_param(void)
