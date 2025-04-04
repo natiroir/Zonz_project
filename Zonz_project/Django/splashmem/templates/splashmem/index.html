@@ -1,0 +1,65 @@
+{% load static %}
+
+<style>
+    /* Utilise comme police Brushy Script.otf */
+    @font-face {
+        font-family: 'BrushyScript';
+        src: url('{% static "fonts/Brushy Script.otf" %}') format('opentype');
+    }
+
+    /* Style global pour centrer tout le contenu */
+    body, html {
+        height: 100%;  /* Prendre toute la hauteur de la fenêtre */
+        margin: 0;     /* Supprimer les marges par défaut */
+        display: flex; /* Utilisation de Flexbox */
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        font-family: Arial, sans-serif; /* Police de base */
+    }
+
+    /* Conteneur de ton contenu */
+    .container {
+        text-align: center; /* Centrer le texte */
+        max-width: 100%;   /* Limiter la largeur du contenu */
+        padding: 5%;      /* Ajouter un peu de padding */
+        border: 1px solid #ccc; /* Bordure optionnelle */
+        background-color: #f9f9f9; /* Fond léger */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    }
+
+    /* Styles pour les liens */
+    a {
+        display: inline-block;
+        margin: 10px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Styles pour les titres */
+    h1, h2 {
+        color: #343a40; /* Couleur sombre pour les titres */
+    }
+</style>
+
+<div class="container">
+    {% if latest_player_list %}
+        <h1 style="font-family: 'BrushyScript', sans-serif; font-size: 100px;">Zonz Project</h1>
+        <a style="font-size: 30px;" href="{% url 'leaderboard' %}">Leader Board</a>
+        <a style="font-size: 30px;" href="{% url 'add_player' %}">Création nouveau joueur</a>
+        
+        <!-- Liste des noms des 5 derniers joueurs -->
+        <h2 class="my-4">Les 5 derniers joueurs créés :</h2>
+        <p>
+            {% for player in latest_player_list|slice:":5" %}
+                {{ player.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% else %}
+        <p class="text-muted">Aucun joueur disponible.</p>
+    {% endif %}
+</div>
+

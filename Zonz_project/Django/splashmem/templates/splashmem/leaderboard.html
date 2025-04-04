@@ -1,0 +1,63 @@
+{% load static %}
+
+<style>
+    @font-face {
+        font-family: 'BrushyScript';
+        src: url('{% static "fonts/Brushy Script.otf" %}') format('opentype');
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 2px solid black !important;
+        padding: 8px;
+        text-align: center;
+    }
+    thead {
+        background-color: #343a40;
+        color: white;
+    }
+</style>
+
+{% if latest_player_list %}
+    <h1 style="font-family: 'BrushyScript', sans-serif;">Zonz Project</h1>
+    <h2 class="my-4">Leader Board</h2>
+    <div class="table-responsive">
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Pourcentage win / loose</th>
+                    <th>Win (Football)</th>
+                    <th>Win (Boxing)</th>
+                    <th>Loss (Football)</th>
+                    <th>Loss (Boxing)</th>
+                    <th>Draw (Football)</th>
+                    <th>Draw (Boxing)</th>
+                    <th>Case Draw</th>
+                    <th>Published Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in latest_player_list %}
+                    <tr>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.pourcentage }} %</td>
+                        <td>{{ player.nbrvictoryF }}</td>
+                        <td>{{ player.nbrvictoryB }}</td>
+                        <td>{{ player.nbrdefeatF }}</td>
+                        <td>{{ player.nbrdefeatB }}</td>
+                        <td>{{ player.nbrdrawF }}</td>
+                        <td>{{ player.nbrdrawB }}</td>
+                        <td>{{ player.numbercase }}</td>
+                        <td>{{ player.pub_date|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p class="text-center text-muted">No players are available.</p>
+{% endif %}

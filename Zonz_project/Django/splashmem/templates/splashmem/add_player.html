@@ -1,0 +1,102 @@
+{% load static %}
+
+<style>
+    /* Utilise comme police Brushy Script.otf */
+    @font-face {
+        font-family: 'BrushyScript';
+        src: url('{% static "fonts/Brushy Script.otf" %}') format('opentype');
+    }
+
+    /* Style global pour centrer tout le contenu */
+    body, html {
+        height: 100%;  /* Prendre toute la hauteur de la fenêtre */
+        margin: 0;     /* Supprimer les marges par défaut */
+        display: flex; /* Utilisation de Flexbox */
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        font-family: Arial, sans-serif; /* Police de base */
+    }
+
+    /* Conteneur de ton contenu */
+    .container {
+        text-align: center; /* Centrer le texte */
+        max-width: 800px;   /* Limiter la largeur du contenu */
+        padding: 20px;      /* Ajouter un peu de padding */
+        border: 1px solid #ccc; /* Bordure optionnelle */
+        background-color: #f9f9f9; /* Fond léger */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    }
+
+    /* Styles pour les liens */
+    a {
+        display: inline-block;
+        margin: 10px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Styles pour les titres */
+    h1, h2 {
+        color: #343a40; /* Couleur sombre pour les titres */
+    }
+
+    /* Styles pour le formulaire */
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input[type="text"], input[type="number"] {
+        margin: 10px;
+        padding: 8px;
+        width: 200px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <h1 style="font-family: 'BrushyScript', sans-serif;">Zonz Project</h1>
+    <h2>Ajouter un nouveau joueur</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Affichage du formulaire -->
+        
+        <!-- Afficher les erreurs de formulaire s'il y en a -->
+        {% if form.errors %}
+            <div class="errors">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        <button type="submit">Ajouter le joueur</button>
+    </form>
+
+    <a href="{% url 'leaderboard' %}">Retour au Leaderboard</a>
+</div>
