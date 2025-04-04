@@ -6,13 +6,9 @@ OBJS=$(SRCS:.c=.o)
 PLAYER_SRCS=$(wildcard players/*.c)
 PLAYER_LIBS=$(PLAYER_SRCS:.c=.so)  # Création de la liste des .so
 
-# Ajout de render.c
-RENDER_SRCS=render.c
-RENDER_LIBS=render.so
-
 # Options de compilation
 CFLAGS= -Wall -g2 -fPIC -I src/  # Ajout de src/ pour trouver actions.h
-LDFLAGS= -ldl -lSDL2 -lSDL2_ttf $(PLAYER_LIBS) $(RENDER_LIBS)  # Lier toutes les bibliothèques .so
+LDFLAGS= -ldl -lSDL2 $(PLAYER_LIBS) $(RENDER_LIBS)  # Lier toutes les bibliothèques .so
 EXE=splashmem
 
 # Compilation de l'exécutable principal

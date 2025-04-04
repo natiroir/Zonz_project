@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_ttf.h>  // Nécessaire pour afficher du texte
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,9 +24,8 @@ static uint32_t tab_param[3] = {0};
 static uint16_t cpt_non_color = 0;
 static int winner = -1;
 void count_pixels(t_player *players[MAX_PLAYERS]);
-void load_libraries();
-void close_libraries();  // Ajout de cette fonction
 void found_winner(void);
+void creat_txt_output_param(void);
 
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
@@ -94,8 +92,6 @@ void main_loop()
 
     action_joueur(&action_j1, &action_j2, &nb_act_j1, &nb_act_j2);
 
-    // Charger les bibliothèques dynamiques
-    load_libraries();
 
     while (!quitting)
     {
@@ -147,8 +143,8 @@ void main_loop()
         nb++;
         SDL_Delay(0.250);
 
-        //printf("credit 1 : %d \n",credit_player_1);
-        if((credit_player_1<0) && (credit_player_2<=0))
+        printf("credit 1 : %d \n",credit_player_2);
+        if((credit_player_1<1) && (credit_player_2<1))
         {
             quitting = 1;
         }
@@ -162,29 +158,8 @@ void main_loop()
     printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", get_player1_point(), get_player2_point());
 
     found_winner();
+    creat_txt_output_param();
 
-    // Fermer les bibliothèques après utilisation
-    close_libraries();
-}
-
-void load_libraries() 
-{
-    handle1 = dlopen("players/player1.so", RTLD_LAZY);
-    if (!handle1) { fprintf(stderr, "Erreur dlopen player1.so : %s\n", dlerror()); close_libraries(); exit(EXIT_FAILURE); }
-
-    handle2 = dlopen("players/player2.so", RTLD_LAZY);
-    if (!handle2) { fprintf(stderr, "Erreur dlopen player2.so : %s\n", dlerror()); close_libraries(); exit(EXIT_FAILURE); }
-
-    get_action1 = (char (*)()) dlsym(handle1, "get_action_1");
-
-    get_action2 = (char (*)()) dlsym(handle2, "get_action_2");
-
-}
-
-/* Fonction pour fermer les bibliothèques */
-void close_libraries() {
-    if (handle1) dlclose(handle1);
-    if (handle2) dlclose(handle2);
 }
 
 /* Fonction pour compter les pixels recouverts par chaque joueur */
@@ -236,11 +211,25 @@ uint32_t get_player2_point(void)
     return players[1]->count;
 }
 
-uint32_t* get_output_param(void)
+void creat_txt_output_param(void)
 {
     tab_param[0] = winner;
     tab_param[1] = players[0]->count;
     tab_param[2] = players[1]->count;
 
-    return tab_param;
+    // Ouvre un fichier en mode écriture ("w")
+    FILE *file = fopen("values_output.txt", "w");
+
+    // Vérifie si le fichier a été ouvert avec succès
+    if (file == NULL) {
+        perror("Erreur lors de l'ouverture du fichier");
+    }
+
+    // Écrit les valeurs dans le fichier, séparées par des espaces
+    fprintf(file, "%d %d %d", tab_param[0], tab_param[1], tab_param[2]);
+
+    // Ferme le fichier
+    fclose(file);
+
+    printf("Les valeurs ont été écrites dans values.txt\n");
 }

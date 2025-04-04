@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_ttf.h>  // Nécessaire pour afficher du texte
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -89,32 +88,6 @@ int main(int argc, char* argv[])
 
     exit(0);
 } // main
-
-void renderText(SDL_Renderer *renderer, TTF_Font *font, const char *text, int x, int y, SDL_Color color) {
-    if (!renderer || !font || !text) {
-        printf("Erreur : renderer, font ou text est NULL dans renderText()\n");
-        return;
-    }
-    const char *display_text = (strlen(text) == 0) ? "..." : text;
-    SDL_Surface *surface = TTF_RenderUTF8_Solid(font, display_text, color);
-    
-    //SDL_Surface *surface = TTF_RenderUTF8_Solid(font, text, color);
-    if (!surface) {
-        printf("Erreur SDL_ttf : %s\n", TTF_GetError());
-        return;
-    }
-
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);  // Libérer la surface après création de la texture
-    if (!texture) {
-        printf("Erreur SDL : %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Rect dstRect = {x, y, surface->w, surface->h};
-    SDL_RenderCopy(renderer, texture, NULL, &dstRect);
-    SDL_DestroyTexture(texture);  // Libérer la texture après l'affichage
-}
 
 void parse_list(const char *list_str) 
 {
