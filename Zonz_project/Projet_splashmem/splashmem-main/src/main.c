@@ -11,14 +11,15 @@
 #include "splash.h"
 #include "world.h"
 
-#define MAX_DIGITS 10
+#define MAX_DIGITS 10000
 #define WINDOW_WIDTH 650
 #define WINDOW_HEIGHT 400
+#define NB_LIB_PROG 4
 
 int          quitting      = 0;
 SDL_Window*  window        = NULL;
 SDL_Surface* screenSurface = NULL;
-static uint8_t action_joueur_1[MAX_DIGITS], action_joueur_2[MAX_DIGITS]; // Tableaux pour stocker les chiffres
+static uint8_t action_joueur_1[MAX_DIGITS], action_joueur_2[MAX_DIGITS], game_mode[2]; // Tableaux pour stocker les chiffres
 static uint16_t nb_action_j1 = 0;
 static uint16_t nb_action_j2 = 0;
 
@@ -51,12 +52,18 @@ int main(int argc, char* argv[])
     window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_SIZE,
                             WIN_SIZE, SDL_WINDOW_SHOWN);
     SDL_AddEventWatch(watch, NULL);
-
-    int size1, size2; // Tailles des tableaux
+    
+    if (argc != NB_LIB_PROG)
+    {
+        printf("Wrong argument number\n");
+    }
+    
+    int size1, size2, size3; // Tailles des tableaux
 
     // Extraction des données des deux paramètres
     extract_data(argv[1], action_joueur_1, &size1);
     extract_data(argv[2], action_joueur_2, &size2);
+    extract_data(argv[3], game_mode, &size3);
 
     // Affichage des résultats
     printf("Chiffres extraits 1 : ");
@@ -71,7 +78,8 @@ int main(int argc, char* argv[])
         printf("%d ", action_joueur_2[i]);
         nb_action_j2++;
     }
-    printf("\n");
+
+    printf("mode %d \n", game_mode[0]);
 
     inits(argc, argv);
 
@@ -142,4 +150,9 @@ void action_joueur(uint8_t** action_tab_j1, uint8_t** action_tab_j2, uint16_t* n
     *action_tab_j2 = action_joueur_2;
     *nombre_act_j1 = nb_action_j1;
     *nombre_act_j2 = nb_action_j2;
+}
+
+uint8_t get_mode_game(void)
+{
+    return game_mode[0];
 }

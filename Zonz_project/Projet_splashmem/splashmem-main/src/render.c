@@ -11,6 +11,7 @@
 #include "param.h"
 #include "splash.h"
 #include "world.h"
+#include "render.h"
 
 // Déclaration des pointeurs de fonction
 char (*get_action1)();
@@ -20,12 +21,11 @@ void* handle1 = NULL;
 void* handle2 = NULL;
 
 static uint16_t cpt_non_color = 0;
-
+static int winner = -1;
 void count_pixels(t_player *players[MAX_PLAYERS]);
 void load_libraries();
 void close_libraries();  // Ajout de cette fonction
-void display_score_window(t_player *players[MAX_PLAYERS]);
-int MyEventFilter(void *userdata, SDL_Event *event);
+void found_winner(void);
 
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
@@ -156,8 +156,9 @@ void main_loop()
     players[0]->count = players[1]->count;
     players[1]->count = cpt_non_color;
     printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", players[0]->count, players[1]->count);
+    printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", get_player1_point(), get_player2_point());
 
-    display_score_window(players);
+    found_winner();
 
     // Fermer les bibliothèques après utilisation
     close_libraries();
@@ -204,27 +205,10 @@ void count_pixels(t_player *players[MAX_PLAYERS])
     }
 }
 
-void display_score_window(t_player *players[MAX_PLAYERS]) 
+void found_winner(void) 
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() == -1) {
-        printf("Erreur SDL/TTF : %s\n", SDL_GetError());
-        return;
-    }
-    uint16_t window_width = 600;
-    uint16_t window_height = 350;
-
-    // Créer la fenêtre et le renderer
-    SDL_Window *score_window = SDL_CreateWindow("Résultats de la Partie", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_width, window_height, SDL_WINDOW_SHOWN);
-    SDL_Renderer *renderer = SDL_CreateRenderer(score_window, -1, SDL_RENDERER_ACCELERATED);
-    TTF_Font *font = TTF_OpenFont("arial.ttf", 24);
-
-    if (!score_window || !renderer || !font) {
-        printf("Erreur création fenêtre scores : %s\n", SDL_GetError());
-        return;
-    }
-
     // Déterminer le vainqueur
-    int max_score = 0, winner = -1;
+    int max_score = 0;
     for (int i = 0; i < 2; i++) {
         if (players[i]->count > max_score) {
             max_score = players[i]->count;
@@ -234,11 +218,17 @@ void display_score_window(t_player *players[MAX_PLAYERS])
     printf("le vainqueur est le joueur %d \n", winner +1 );
 }
 
-// Définir la fonction de filtre d'événements
-int MyEventFilter(void *userdata, SDL_Event *event) {
-    if (event->type == SDL_KEYDOWN) {
-        printf("Touche appuyée : %s\n", SDL_GetKeyName(event->key.keysym.sym));
-    }
-    return 0; // Retourner 0 pour continuer le traitement normal des événements
+int get_winner(void)
+{
+    return winner;
 }
 
+uint32_t get_player1_point(void)
+{
+    return players[0]->count;
+}
+
+uint32_t get_player2_point(void)
+{
+    return players[1]->count;
+}
