@@ -1,0 +1,1 @@
+gcc -fPIC  -Wall -g -shared -Wl,-soname,libplayer1.so -o libplayer1.so CMakeFiles/player1.dir/player1.c.o 

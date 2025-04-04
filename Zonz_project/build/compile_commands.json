@@ -1,0 +1,62 @@
+[
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/src",
+  "command": "gcc    -Wall -g -o CMakeFiles/splashmem.dir/actions.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/actions.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/actions.c",
+  "output": "src/CMakeFiles/splashmem.dir/actions.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/src",
+  "command": "gcc    -Wall -g -o CMakeFiles/splashmem.dir/init.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/init.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/init.c",
+  "output": "src/CMakeFiles/splashmem.dir/init.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/src",
+  "command": "gcc    -Wall -g -o CMakeFiles/splashmem.dir/main.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/main.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/main.c",
+  "output": "src/CMakeFiles/splashmem.dir/main.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/src",
+  "command": "gcc    -Wall -g -o CMakeFiles/splashmem.dir/player.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/player.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/player.c",
+  "output": "src/CMakeFiles/splashmem.dir/player.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/src",
+  "command": "gcc    -Wall -g -o CMakeFiles/splashmem.dir/render.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/render.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/render.c",
+  "output": "src/CMakeFiles/splashmem.dir/render.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/src",
+  "command": "gcc    -Wall -g -o CMakeFiles/splashmem.dir/world.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/world.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src/world.c",
+  "output": "src/CMakeFiles/splashmem.dir/world.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/players",
+  "command": "gcc -Dplayer1_EXPORTS -I\"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src\"  -Wall -g -fPIC -o CMakeFiles/player1.dir/player1.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player1.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player1.c",
+  "output": "players/CMakeFiles/player1.dir/player1.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/players",
+  "command": "gcc -Dplayer2_EXPORTS -I\"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src\"  -Wall -g -fPIC -o CMakeFiles/player2.dir/player2.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player2.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player2.c",
+  "output": "players/CMakeFiles/player2.dir/player2.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/players",
+  "command": "gcc -Dplayer3_EXPORTS -I\"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src\"  -Wall -g -fPIC -o CMakeFiles/player3.dir/player3.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player3.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player3.c",
+  "output": "players/CMakeFiles/player3.dir/player3.c.o"
+},
+{
+  "directory": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/build/players",
+  "command": "gcc -Dplayer4_EXPORTS -I\"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/src\"  -Wall -g -fPIC -o CMakeFiles/player4.dir/player4.c.o -c \"/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player4.c\"",
+  "file": "/mnt/c/Users/Lycée Grandmont/Desktop/Polytech/1er_annee/Projet_tutoré/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/players/player4.c",
+  "output": "players/CMakeFiles/player4.dir/player4.c.o"
+}
+]

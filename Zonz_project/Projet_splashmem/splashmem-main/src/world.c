@@ -20,7 +20,7 @@ void world_create_players()
 {
     int i = 0;
 
-    for (i = 0; i < get_number_player(); i++)
+    for (i = 0; i < 2; i++)
     {
         players[i] = (t_player*)malloc(sizeof(t_player));
         player_init(players[i], i);

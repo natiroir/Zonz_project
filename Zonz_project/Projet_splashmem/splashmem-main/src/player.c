@@ -17,6 +17,6 @@ void player_init(t_player* p_player, uint8_t num)
     p_player->color   = 0;
     p_player->x       = start_pos_x[num];
     p_player->y       = start_pos_y[num];
-    p_player->credits = get_number_credit();//P_CREDITS
+    p_player->credits = 1500;//P_CREDITS
     p_player->count   = 0;
 }
