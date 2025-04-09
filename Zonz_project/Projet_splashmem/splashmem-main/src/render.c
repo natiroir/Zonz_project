@@ -190,6 +190,7 @@ void found_winner(void)
             winner = i;
         }
     }
+    
     if(players[0]->count == players[1]->count)
     {
         winner = 2;
