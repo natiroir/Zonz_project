@@ -1,0 +1,128 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "src",
+					"jsonFile" : "directory-src-Debug-b6cf2213fc5053b67c22.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "players",
+					"jsonFile" : "directory-players-Debug-451a081f470ed9a64f7d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "players",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "splashmem",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "player1::@0ef0f33e9ac96562bf07",
+					"jsonFile" : "target-player1-Debug-426d44485c8d2fe272fe.json",
+					"name" : "player1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "player2::@0ef0f33e9ac96562bf07",
+					"jsonFile" : "target-player2-Debug-60faf4ba44ee0cff8b3f.json",
+					"name" : "player2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "player3::@0ef0f33e9ac96562bf07",
+					"jsonFile" : "target-player3-Debug-bf9f03c35e3a5e3a16d5.json",
+					"name" : "player3",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "player4::@0ef0f33e9ac96562bf07",
+					"jsonFile" : "target-player4-Debug-9eb131a5bf86d2b48736.json",
+					"name" : "player4",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "splashmem::@145eef247bfb46b6828c",
+					"jsonFile" : "target-splashmem-Debug-108c60a9fb99556921bf.json",
+					"name" : "splashmem",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/mnt/c/Users/Lyc\u00e9e Grandmont/Desktop/Polytech/1er_annee/Projet_tutor\u00e9/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/build",
+		"source" : "/mnt/c/Users/Lyc\u00e9e Grandmont/Desktop/Polytech/1er_annee/Projet_tutor\u00e9/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
