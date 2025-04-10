@@ -46,8 +46,7 @@ int main(int argc, char* argv[])
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
     }
 
-    window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500,
-                            500, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500, 500, SDL_WINDOW_HIDDEN);
     SDL_AddEventWatch(watch, NULL);
     
     if (argc != NB_LIB_PROG)
@@ -63,28 +62,21 @@ int main(int argc, char* argv[])
     extract_data(argv[3], game_mode, &size3);
 
     // Affichage des résultats
-    printf("Chiffres extraits 1 : ");
     for (int i = 0; i < size1; i++) {
-        printf("%d ", action_joueur_1[i]);
         nb_action_j1++;
     }
-
-    printf("nb action joueur 1 : %d\n", nb_action_j1);
-    printf("Chiffres extraits 2 : ");
     for (int i = 0; i < size2; i++) {
-        printf("%d ", action_joueur_2[i]);
         nb_action_j2++;
     }
 
-    printf("mode %d \n", game_mode[0]);
 
     inits(argc, argv);
 
     main_loop();
 
     SDL_DelEventWatch(watch, NULL);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    //SDL_DestroyWindow(window);
+    //SDL_Quit();
 
     exit(0);
 } // main
@@ -94,9 +86,7 @@ void parse_list(const char *list_str)
     // Parcourir chaque caractère de la chaîne
     for (int i = 0; i < strlen(list_str); i++) {
         // Afficher chaque caractère
-        printf("%c ", list_str[i]);
     }
-    printf("\n");
 }
 
 void extract_data(const char *str, uint8_t *numbers, int *size) 

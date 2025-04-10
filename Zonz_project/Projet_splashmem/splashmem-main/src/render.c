@@ -30,26 +30,6 @@ void creat_txt_output_param(void);
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
 /* ------------------------------------------------------------------------- */
-void render_map()
-{
-    int      i = 0;
-    SDL_Rect rect;
-
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = SQUARE_SIZE;
-    rect.h = SQUARE_SIZE;
-
-    screenSurface = SDL_GetWindowSurface(window);
-
-    for (i = 0; i < SPOT_NUM; i++)
-    {
-        rect.x = (i % MAP_SIZE) * SQUARE_SIZE;
-        rect.y = (i / MAP_SIZE) * SQUARE_SIZE;
-        SDL_FillRect(screenSurface, &rect, colors[mapmem[i]]);
-    }
-    SDL_UpdateWindowSurface(window);
-}
 
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
@@ -95,20 +75,6 @@ void main_loop()
 
     while (!quitting)
     {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-            {
-                quitting = 1;
-            }
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE) {
-                if (event.window.windowID == SDL_GetWindowID(window)) {
-                    printf(" Fermeture de la fenêtre principale\n");
-                    quitting = 1;
-                }
-            }
-        }
 
         // Vérification avant d’appeler les fonctions
         credit_player_1 = get_credit_player(players[0]);
@@ -137,10 +103,8 @@ void main_loop()
         }
         
         // Affichage et mise à jour
-        render_map();
+        //render_map();
         nb++;
-        SDL_Delay(0.250);
-
         //printf("credit 1 : %d \n",credit_player_2);
         if((credit_player_1<1) && (credit_player_2<1))
         {
@@ -152,7 +116,6 @@ void main_loop()
 
     players[0]->count = players[1]->count;
     players[1]->count = cpt_non_color;
-    printf("Pixels recouverts - Joueur 1: %d | Joueur 2: %d \n", players[0]->count, players[1]->count);
 
     found_winner();
     creat_txt_output_param();
@@ -195,7 +158,6 @@ void found_winner(void)
     {
         winner = 2;
     }
-    printf("le vainqueur est le joueur %d \n", winner +1 );
 }
 
 void creat_txt_output_param(void)
@@ -217,6 +179,4 @@ void creat_txt_output_param(void)
 
     // Ferme le fichier
     fclose(file);
-
-    printf("Les valeurs ont été écrites dans values.txt\n");
 }

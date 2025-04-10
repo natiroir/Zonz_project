@@ -7,6 +7,10 @@
         src: url('{% static "fonts/Brushy Script.otf" %}') format('opentype');
     }
 
+    /* Importation de polices Google */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
     /* Style global pour centrer tout le contenu */
     body, html {
         height: 100%;  /* Prendre toute la hauteur de la fenêtre */
@@ -14,7 +18,15 @@
         display: flex; /* Utilisation de Flexbox */
         justify-content: center; /* Centrer horizontalement */
         align-items: center; /* Centrer verticalement */
-        font-family: Arial, sans-serif; /* Police de base */
+        font-family: 'Roboto', sans-serif; /* Police de base */
+        background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Arrière-plan dégradé bleu ciel */
+        animation: gradientBG 10s ease infinite; /* Animation de fond en dégradé */
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     /* Conteneur de ton contenu */
@@ -22,26 +34,62 @@
         text-align: center; /* Centrer le texte */
         max-width: 800px;   /* Limiter la largeur du contenu */
         padding: 20px;      /* Ajouter un peu de padding */
-        border: 1px solid #ccc; /* Bordure optionnelle */
-        background-color: #f9f9f9; /* Fond léger */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+        border-radius: 20px; /* Coins arrondis plus prononcés */
+        background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec transparence */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+        position: relative; /* Position fixe */
+        animation: bounceIn 1s ease; /* Animation d'entrée en rebondissant */
+    }
+
+    @keyframes bounceIn {
+        from {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
     }
 
     /* Styles pour les liens */
     a {
         display: inline-block;
         margin: 10px;
+        padding: 10px 20px;
         text-decoration: none;
-        color: #007bff;
+        color: #ffffff;
+        background-color: #0072ff; /* Couleur fixe pour les boutons */
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        animation: linkAnimation 3s ease infinite;
+    }
+
+    @keyframes linkAnimation {
+        0%, 100% { background-color: #0072ff; }
+        50% { background-color: #00c6ff; }
     }
 
     a:hover {
-        text-decoration: underline;
+        background-color: #00c6ff;
+        transform: translateY(-10px);
     }
 
     /* Styles pour les titres */
     h1, h2 {
         color: #343a40; /* Couleur sombre pour les titres */
+    }
+
+    h1 {
+        font-family: 'BrushyScript', 'Pacifico', sans-serif; /* Police personnalisée et fantaisie */
+        font-size: 80px; /* Taille de police ajustée */
+        animation: colorChange 5s ease infinite; /* Animation de changement de couleur */
+    }
+
+    @keyframes colorChange {
+        0%, 100% { color: #0072ff; }
+        50% { color: #00c6ff; }
     }
 
     /* Styles pour le formulaire */
@@ -56,26 +104,34 @@
         padding: 8px;
         width: 200px;
         border-radius: 4px;
-        border: 1px solid #ccc;
+        border: 1px solid #66a6ff; /* Bordure bleu ciel */
     }
 
     button {
         margin-top: 20px;
         padding: 10px 20px;
-        background-color: #007bff;
+        background-color: #0072ff; /* Couleur fixe pour les boutons */
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        animation: linkAnimation 3s ease infinite;
     }
 
     button:hover {
-        background-color: #0056b3;
+        background-color: #00c6ff; /* Couleur au survol */
+        transform: translateY(-10px);
+    }
+
+    /* Style pour le texte lorsqu'il n'y a pas de joueurs */
+    .text-muted {
+        color: #6c757d;
     }
 </style>
 
 <div class="container">
-    <h1 style="font-family: 'BrushyScript', sans-serif;">Zonz Project</h1>
+    <h1>Zonz Project</h1>
     <h2>Ajouter un nouveau joueur</h2>
 
     <form method="POST">

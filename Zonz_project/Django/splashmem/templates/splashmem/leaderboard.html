@@ -1,63 +1,142 @@
 {% load static %}
 
 <style>
+    /* Utilise comme police Brushy Script.otf */
     @font-face {
         font-family: 'BrushyScript';
         src: url('{% static "fonts/Brushy Script.otf" %}') format('opentype');
     }
 
+    /* Importation de polices Google */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+    /* Style global pour centrer tout le contenu */
+    body, html {
+        height: 100%;  /* Prendre toute la hauteur de la fenêtre */
+        margin: 0;     /* Supprimer les marges par défaut */
+        display: flex; /* Utilisation de Flexbox */
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        font-family: 'Roboto', sans-serif; /* Police de base */
+        background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Arrière-plan dégradé bleu ciel */
+        animation: gradientBG 10s ease infinite; /* Animation de fond en dégradé */
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Conteneur de ton contenu */
+    .container {
+        text-align: center; /* Centrer le texte */
+        max-width: 80%;   /* Limiter la largeur du contenu */
+        padding: 2%;      /* Ajouter un peu de padding */
+        border-radius: 20px; /* Coins arrondis plus prononcés */
+        background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec transparence */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+        position: relative; /* Position fixe */
+        animation: bounceIn 1s ease; /* Animation d'entrée en rebondissant */
+    }
+
+    @keyframes bounceIn {
+        from {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Styles pour les titres */
+    h1 {
+        color: #66a6ff; /* Coordonné avec les boutons */
+        font-family: 'BrushyScript', 'Pacifico', sans-serif; /* Police personnalisée et fantaisie */
+        font-size: 80px; /* Taille de police ajustée */
+        animation: colorChange 5s ease infinite; /* Animation de changement de couleur */
+    }
+
+    @keyframes colorChange {
+        0%, 100% { color: #66a6ff; }
+        50% { color: #a1c4fd; }
+    }
+
+    h2 {
+        color: #343a40; /* Couleur sombre pour les titres */
+        margin-top: 20px;
+    }
+
+    /* Styles pour la table */
     table {
         border-collapse: collapse;
         width: 100%;
+        margin-top: 20px;
     }
+
     th, td {
-        border: 2px solid black !important;
+        border: 2px solid #66a6ff; /* Bordure bleu ciel */
         padding: 8px;
         text-align: center;
     }
+
     thead {
-        background-color: #343a40;
+        background-color: #66a6ff; /* Fond bleu ciel pour l'en-tête */
         color: white;
+    }
+
+    /* Style pour le texte lorsqu'il n'y a pas de joueurs */
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .custom-margin-top {
+    margin-top: 150px; /* Ajustez cette valeur selon vos besoins */
     }
 </style>
 
-{% if latest_player_list %}
-    <h1 style="font-family: 'BrushyScript', sans-serif;">Zonz Project</h1>
-    <h2 class="my-4">Leader Board</h2>
-    <div class="table-responsive">
-        <table class="table text-center">
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Pourcentage win / loose</th>
-                    <th>Win (Football)</th>
-                    <th>Win (Boxing)</th>
-                    <th>Loss (Football)</th>
-                    <th>Loss (Boxing)</th>
-                    <th>Draw (Football)</th>
-                    <th>Draw (Boxing)</th>
-                    <th>Case Draw</th>
-                    <th>Published Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for player in latest_player_list %}
+<div class="container">
+    {% if latest_player_list %}
+        <h1 class="custom-margin-top">Zonz Project</h1>
+        <h2 class="my-4">Leader Board</h2>
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead>
                     <tr>
-                        <td>{{ player.name }}</td>
-                        <td>{{ player.pourcentage }} %</td>
-                        <td>{{ player.nbrvictoryF }}</td>
-                        <td>{{ player.nbrvictoryB }}</td>
-                        <td>{{ player.nbrdefeatF }}</td>
-                        <td>{{ player.nbrdefeatB }}</td>
-                        <td>{{ player.nbrdrawF }}</td>
-                        <td>{{ player.nbrdrawB }}</td>
-                        <td>{{ player.numbercase }}</td>
-                        <td>{{ player.pub_date|date:"d/m/Y H:i" }}</td>
+                        <th>Player</th>
+                        <th>Pourcentage win / loose</th>
+                        <th>Win (Football)</th>
+                        <th>Win (Boxing)</th>
+                        <th>Loss (Football)</th>
+                        <th>Loss (Boxing)</th>
+                        <th>Draw (Football)</th>
+                        <th>Draw (Boxing)</th>
+                        <th>Case Draw</th>
+                        <th>Published Date</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% else %}
-    <p class="text-center text-muted">No players are available.</p>
-{% endif %}
+                </thead>
+                <tbody>
+                    {% for player in latest_player_list %}
+                        <tr>
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.pourcentage }} %</td>
+                            <td>{{ player.nbrvictoryF }}</td>
+                            <td>{{ player.nbrvictoryB }}</td>
+                            <td>{{ player.nbrdefeatF }}</td>
+                            <td>{{ player.nbrdefeatB }}</td>
+                            <td>{{ player.nbrdrawF }}</td>
+                            <td>{{ player.nbrdrawB }}</td>
+                            <td>{{ player.numbercase }}</td>
+                            <td>{{ player.pub_date|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No players are available.</p>
+    {% endif %}
+</div>
