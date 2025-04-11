@@ -3,6 +3,9 @@ from django.template import loader
 from .models import Player
 from random import randint
 
+import subprocess
+
+
 def index(request):
     latest_player_list = Player.objects.order_by("-pub_date")[::]
     template = loader.get_template("splashmem/index.html")
@@ -103,13 +106,13 @@ def add_player(request):
             for p in otherplayer:
                 victoire, nbrcasep, nbrcaseop = appel_action(player.action, p.action, 0)
                 # On va faire un appel à l'action du joueur
-                if victoire == 1:
+                if victoire == 0:
                     player.nbrvictoryF += 1
                     p.nbrdefeatF += 1
                 elif victoire == 2:
                     player.nbrdrawF += 1
                     p.nbrdrawF += 1
-                elif victoire == 3:
+                elif victoire == 1:
                     player.nbrdefeatF += 1
                     p.nbrvictoryF += 1
                 
@@ -118,13 +121,13 @@ def add_player(request):
                 # Match retour
 
                 victoire, nbrcaseop, nbrcasep = appel_action(p.action, player.action, 0)
-                if victoire == 1:
+                if victoire == 0:
                     p.nbrvictoryF += 1
                     player.nbrdefeatF += 1
                 elif victoire == 2:
                     p.nbrdrawF += 1
                     player.nbrdrawF += 1
-                elif victoire == 3:
+                elif victoire == 1:
                     p.nbrdefeatF += 1
                     player.nbrvictoryF += 1
 
@@ -136,13 +139,13 @@ def add_player(request):
 
 
                 # On va faire un appel à l'action du joueur
-                if victoire == 1:
+                if victoire == 0:
                     player.nbrvictoryB += 1
                     p.nbrdefeatB += 1
                 elif victoire == 2:
                     player.nbrdrawB += 1
                     p.nbrdrawB += 1
-                elif victoire == 3:
+                elif victoire == 1:
                     player.nbrdefeatB += 1
                     p.nbrvictoryB += 1
                 
@@ -151,13 +154,13 @@ def add_player(request):
                 # Match retour
 
                 victoire, nbrcaseop, nbrcasep = appel_action(p.action, player.action, 1)
-                if victoire == 1:
+                if victoire == 0:
                     p.nbrvictoryB += 1
                     player.nbrdefeatB += 1
                 elif victoire == 2:
                     p.nbrdrawB += 1
                     player.nbrdrawB += 1
-                elif victoire == 3:
+                elif victoire == 1:
                     p.nbrdefeatB += 1
                     player.nbrvictoryB += 1
 
@@ -191,8 +194,48 @@ def add_player(request):
 
 
 def appel_action(np,op,terrain):
-    # Fonction pour appeler l'action du joueur
-    # np : le joueur qui joue
-    # op : le joueur adverse
-    # On va faire un appel à l'action du joueur np
-    return random.randint(0, 1), random.randint(0, 10000), random.randint(0, 10000)
+
+    commande = [
+        "./splashmem",
+        str(np),
+        str(op),
+        str(terrain)
+    ]
+
+    # Chemin du répertoire où se trouve l'exécutable
+    chemin = "/home/nathan/Zonz project final/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main"
+
+    # Exécuter la commande sans capturer la sortie
+    subprocess.run(commande, cwd=chemin)
+
+    while True:
+        with open("/home/nathan/Zonz project final/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/values_output.txt", "r") as file:
+            # Lit la première ligne du fichier
+            line = file.readline().strip()
+            # Vérifie si la première ligne contient "None"
+            if line != "None":
+                break
+        # Attendre un court instant avant de vérifier à nouveau
+        time.sleep(0.001)
+
+
+
+
+    # Ouvre le fichier en mode lecture
+    with open("/home/nathan/Zonz project final/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/values_output.txt", "r") as file:
+        # Lit la première ligne du fichier
+        line = file.readline().strip()
+        # Sépare les valeurs par des espaces
+        values = line.split()
+        # Convertit les valeurs en entiers
+        values = [int(value) for value in values]
+        # Retourne les valeurs sous forme de tuple
+        print(values)
+
+    # Met la valeur None à la première ligne du fichier
+
+    with open("/home/nathan/Zonz project final/Zonz_project/Zonz_project/Projet_splashmem/splashmem-main/values_output.txt", "w") as file:
+        file.write("None\n")
+    # Renvoie les valeurs
+
+    return values[0], values[2], values[1]

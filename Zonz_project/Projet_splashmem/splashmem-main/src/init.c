@@ -43,5 +43,4 @@ void inits(int argc, char* argv[])
     init_colors();
     actions_init();
     world_create_players();
-    printf("inits done\n");
 }

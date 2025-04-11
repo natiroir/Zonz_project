@@ -7,6 +7,10 @@
         src: url('{% static "fonts/Brushy Script.otf" %}') format('opentype');
     }
 
+    /* Importation de polices Google */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
     /* Style global pour centrer tout le contenu */
     body, html {
         height: 100%;  /* Prendre toute la hauteur de la fenêtre */
@@ -14,45 +18,96 @@
         display: flex; /* Utilisation de Flexbox */
         justify-content: center; /* Centrer horizontalement */
         align-items: center; /* Centrer verticalement */
-        font-family: Arial, sans-serif; /* Police de base */
+        font-family: 'Roboto', sans-serif; /* Police de base */
+        background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Arrière-plan dégradé bleu ciel */
+        animation: gradientBG 10s ease infinite; /* Animation de fond en dégradé */
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     /* Conteneur de ton contenu */
     .container {
         text-align: center; /* Centrer le texte */
-        max-width: 100%;   /* Limiter la largeur du contenu */
-        padding: 5%;      /* Ajouter un peu de padding */
-        border: 1px solid #ccc; /* Bordure optionnelle */
-        background-color: #f9f9f9; /* Fond léger */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce */
+        max-width: 80%;   /* Limiter la largeur du contenu */
+        padding: 2%;      /* Ajouter un peu de padding */
+        border-radius: 20px; /* Coins arrondis plus prononcés */
+        background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec transparence */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée */
+        position: relative; /* Position fixe */
+        animation: bounceIn 1s ease; /* Animation d'entrée en rebondissant */
+    }
+
+    @keyframes bounceIn {
+        from {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
     }
 
     /* Styles pour les liens */
     a {
         display: inline-block;
         margin: 10px;
+        padding: 10px 20px;
         text-decoration: none;
-        color: #007bff;
+        color: #ffffff;
+        background-color: #66a6ff; /* Couleur bleu ciel pour les boutons */
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     a:hover {
-        text-decoration: underline;
+        background-color: #0056b3; /* Couleur au survol */
+        transform: translateY(-10px);
     }
 
     /* Styles pour les titres */
-    h1, h2 {
+    h1 {
+        color: #66a6ff; /* Coordonné avec les boutons */
+        font-family: 'BrushyScript', 'Pacifico', sans-serif; /* Police personnalisée et fantaisie */
+        font-size: 80px; /* Taille de police ajustée */
+        animation: colorChange 5s ease infinite; /* Animation de changement de couleur */
+    }
+
+    @keyframes colorChange {
+        0%, 100% { color: #66a6ff; }
+        50% { color: #a1c4fd; }
+    }
+
+    h2 {
         color: #343a40; /* Couleur sombre pour les titres */
+        margin-top: 20px;
+    }
+
+    /* Style pour le texte des joueurs */
+    p {
+        font-size: 18px;
+        color: #555;
+    }
+
+    /* Style pour le texte lorsqu'il n'y a pas de joueurs */
+    .text-muted {
+        color: #6c757d;
     }
 </style>
 
 <div class="container">
     {% if latest_player_list %}
-        <h1 style="font-family: 'BrushyScript', sans-serif; font-size: 100px;">Zonz Project</h1>
-        <a style="font-size: 30px;" href="{% url 'leaderboard' %}">Leader Board</a>
-        <a style="font-size: 30px;" href="{% url 'add_player' %}">Création nouveau joueur</a>
+        <h1>Zonz Project</h1>
+        <a href="{% url 'leaderboard' %}">Leader Board</a>
+        <a href="{% url 'add_player' %}">Création nouveau joueur</a>
         
         <!-- Liste des noms des 5 derniers joueurs -->
-        <h2 class="my-4">Les 5 derniers joueurs créés :</h2>
+        <h2>Les 5 derniers joueurs créés :</h2>
         <p>
             {% for player in latest_player_list|slice:":5" %}
                 {{ player.name }}{% if not forloop.last %}, {% endif %}
@@ -62,4 +117,3 @@
         <p class="text-muted">Aucun joueur disponible.</p>
     {% endif %}
 </div>
-
