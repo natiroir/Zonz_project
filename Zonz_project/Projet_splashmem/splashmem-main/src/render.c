@@ -33,22 +33,23 @@ void creat_txt_output_param(void);
 void render_map()
 {
     int      i = 0;
-    SDL_Rect rect;
+    /*SDL_Rect rect;
 
     rect.x = 0;
     rect.y = 0;
     rect.w = SQUARE_SIZE;
-    rect.h = SQUARE_SIZE;
+    rect.h = SQUARE_SIZE;*/
 
-    screenSurface = SDL_GetWindowSurface(window);
+    //screenSurface = SDL_GetWindowSurface(window);
 
     for (i = 0; i < SPOT_NUM; i++)
     {
-        rect.x = (i % MAP_SIZE) * SQUARE_SIZE;
-        rect.y = (i / MAP_SIZE) * SQUARE_SIZE;
-        SDL_FillRect(screenSurface, &rect, colors[mapmem[i]]);
+        //rect.x = (i % MAP_SIZE) * SQUARE_SIZE;
+        //rect.y = (i / MAP_SIZE) * SQUARE_SIZE;
+        //colors[mapmem[i]];
+        //SDL_FillRect(screenSurface, &rect, colors[mapmem[i]]);
     }
-    SDL_UpdateWindowSurface(window);
+    //SDL_UpdateWindowSurface(window);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -57,21 +58,22 @@ void render_map()
 void render_player()
 {
     int i         = 0;
-    screenSurface = SDL_GetWindowSurface(window);
-    SDL_Rect rect;
+    //screenSurface = SDL_GetWindowSurface(window);
+    /*SDL_Rect rect;
 
     rect.x = 0;
     rect.y = 0;
     rect.w = SQUARE_SIZE;
-    rect.h = SQUARE_SIZE;
+    rect.h = SQUARE_SIZE;*/
 
     for (i = 0; i < 2; i++)
     {
-        rect.x = players[i]->x * SQUARE_SIZE;
-        rect.y = players[i]->y * SQUARE_SIZE;
-        SDL_FillRect(screenSurface, &rect, colors[i] - 0x00202020);
+        //rect.x = players[i]->x * SQUARE_SIZE;
+        //rect.y = players[i]->y * SQUARE_SIZE;
+        //colors[i] - 0x00202020;
+        //SDL_FillRect(screenSurface, &rect, colors[i] - 0x00202020);
     }
-    SDL_UpdateWindowSurface(window);
+    //SDL_UpdateWindowSurface(window);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -95,8 +97,8 @@ void main_loop()
 
     while (!quitting)
     {
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
+        //SDL_Event event;
+        /*while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT)
             {
@@ -108,7 +110,7 @@ void main_loop()
                     quitting = 1;
                 }
             }
-        }
+        }*/
 
         // Vérification avant d’appeler les fonctions
         credit_player_1 = get_credit_player(players[0]);

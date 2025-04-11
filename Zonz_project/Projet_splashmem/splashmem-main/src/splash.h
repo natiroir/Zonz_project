@@ -11,7 +11,7 @@ extern int          quitting;
  *
  * @param format
  */
-void init_colors(SDL_PixelFormat* format);
+void init_colors(void);
 
 /**
  * @brief do some inits

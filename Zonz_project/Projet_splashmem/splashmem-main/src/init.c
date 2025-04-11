@@ -14,13 +14,22 @@ uint32_t colors[MAX_PLAYERS + 1] = {0};
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
 /* ------------------------------------------------------------------------- */
-void init_colors(SDL_PixelFormat* format)
+void init_colors(void /*SDL_PixelFormat* format*/)
 {
-    colors[0] = SDL_MapRGB(format, 0x00, 0x00, 0x00); //noir
-    colors[1] = SDL_MapRGB(format, 0xFF, 0, 0); // rouge
-    colors[2] = SDL_MapRGB(format, 0, 0xFF, 0); // vert
-    colors[3] = SDL_MapRGB(format, 0, 0x0, 0xFF); //bleu
-    colors[4] = SDL_MapRGB(format, 0xFF, 0, 0xFF); // magenta
+    // Noir
+    colors[0] = (0x00 << 16) | (0x00 << 8) | 0x00;
+
+    // Rouge
+    colors[1] = (0xFF << 16) | (0x00 << 8) | 0x00;
+
+    // Vert
+    colors[2] = (0x00 << 16) | (0xFF << 8) | 0x00;
+
+    // Bleu
+    colors[3] = (0x00 << 16) | (0x00 << 8) | 0xFF;
+
+    // Magenta
+    colors[4] = (0xFF << 16) | (0x00 << 8) | 0xFF;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -29,9 +38,9 @@ void init_colors(SDL_PixelFormat* format)
 void inits(int argc, char* argv[])
 {
     // Get window surface
-    screenSurface           = SDL_GetWindowSurface(window);
-    SDL_PixelFormat* format = screenSurface->format;
-    init_colors(format);
+    //screenSurface           = SDL_GetWindowSurface(window);
+    //SDL_PixelFormat* format = screenSurface->format;
+    init_colors();
     actions_init();
     world_create_players();
     printf("inits done\n");

@@ -41,14 +41,14 @@ int SDLCALL watch(void* userdata, SDL_Event* event)
 /* ------------------------------------------------------------------------- */
 int main(int argc, char* argv[])
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+    /*if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
     {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
-    }
+    }*/
 
-    window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500,
-                            500, SDL_WINDOW_SHOWN);
-    SDL_AddEventWatch(watch, NULL);
+    /*window = SDL_CreateWindow("SplashMem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 500,
+                            500, SDL_WINDOW_SHOWN);*/
+    //SDL_AddEventWatch(watch, NULL);
     
     if (argc != NB_LIB_PROG)
     {
@@ -82,9 +82,9 @@ int main(int argc, char* argv[])
 
     main_loop();
 
-    SDL_DelEventWatch(watch, NULL);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    //SDL_DelEventWatch(watch, NULL);
+    //SDL_DestroyWindow(window);
+    //SDL_Quit();
 
     exit(0);
 } // main

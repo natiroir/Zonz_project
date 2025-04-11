@@ -2,7 +2,6 @@
 
 #define WINDOW_WIDTH 650
 #define WINDOW_HEIGHT 400
-#define NB_LIB_PROG 5
 
 #define FLAG_LANCER_JEU 1
 
